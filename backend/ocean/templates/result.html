@@ -1,0 +1,98 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <title>결과</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+
+    <nav>기름유출 모니터링</nav>
+  </head>
+  <body>
+
+    <div id="content-wrapper">
+      
+      <div id="predict">
+        <div class="jemok-predict">탐지결과</div>
+        <img src="data:image/jpeg;base64,{{ img }}" alt="Result Image" />
+      </div>
+
+      <div id="ocean">
+        <div class="jemok-ocean">해상정보</div>
+        <ul>
+          <li>관측시간: {{current_time}}</li>
+          <br>
+          <li>관측장소: {{obs_post_name}}</li>
+          <br>
+          <li>풍향: {{current_direct}}deg</li>
+          <br>
+          <li>풍속: {{current_speed}}m/s</li>
+
+        </ul>
+      </div>
+
+      <div id="map">
+        <div class="jemok-map">지도</div>
+        <div id="map-img"></div>
+      </div>
+    </div>
+
+    <div class="blank"></div>
+    <div class="botton-wrapper">
+      <button
+        id="btnSubmit"
+        type="button"
+        onClick="location.href"
+        ="{% url 'observation_form' %}"
+      >
+        새로운 좌표 입력
+      </button>
+    </div>
+
+    <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=29efc1063b0ec0c25f3c2447f35042bb"
+    ></script>
+    <script>
+      var obsLat = {{ obs_lat | safe }};
+      var obsLon = {{ obs_lon | safe }};
+
+      var mapContainer = document.getElementById("map-img"), // 지도를 표시할 div
+        mapOption = {
+          center: new kakao.maps.LatLng(obsLat, obsLon), // 지도의 중심좌표
+          level: 10, // 지도의 확대 레벨
+        };
+
+      var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+      var imageSrc =
+          "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png", // 마커이미지의 주소입니다
+        imageSize = new kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
+        imageOption = { offset: new kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+      // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+      var markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imageOption
+        ),
+        //markerPosition = new kakao.maps.LatLng(37.54699, 127.09598); // 마커가 표시될 위치입니다
+        markerPosition = new kakao.maps.LatLng(obsLat, obsLon);
+      // 마커를 생성합니다
+      var marker = new kakao.maps.Marker({
+        position: markerPosition,
+        image: markerImage, // 마커이미지 설정
+      });
+
+      // 마커가 지도 위에 표시되도록 설정합니다
+      marker.setMap(map);
+
+      marker.setMap(map);
+    </script>
+  </body>
+</html>
