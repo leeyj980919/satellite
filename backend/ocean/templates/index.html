@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/index_style.css' %}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+
+  <title>좌표 입력</title>
+  <header>기름유출 모니터링</header>
+</head>
+<body>
+
+  <div id="container">
+    <div class = "wrapper">
+      <div class = "jemok">
+        좌표 입력창
+      </div>
+      <form action="{% url 'process' %}" method="POST" id = "form-wrapper">
+        {% csrf_token %}
+        위도<input type="text" name = "x" placeholder="   위도를 입력해 주세요"></input> <br> <br>
+        경도<input type="text" name = "y" placeholder="   경도를 입력해 주세요"></input> <br> <br>
+        날짜<input type="text" name = "date" placeholder="   예시: 20231024"></input> <br><br>
+        <div class = "btn-wrapper">
+          <input type = "submit" value="submit" class = "btn">
+        </div>
+  
+      </form>
+
+    </div>
+  </div>
+  <br><br><br><br><br><br>
+  <div class="footer-wrapper">
+    <footer>
+      Copyright 2023 척척학사<br><br>
+      All rights reserved.
+    </footer>
+  </div>
+</body>
+
+</html>

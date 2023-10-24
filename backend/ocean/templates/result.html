@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
 
-    <nav>기름유출 모니터링</nav>
+    <nav><div id = "nav-title">기름유출 모니터링</div></nav>
   </head>
   <body>
 
@@ -43,17 +43,9 @@
     </div>
 
     <div class="blank"></div>
-    <div class="botton-wrapper">
-      <button
-        id="btnSubmit"
-        type="button"
-        onClick="location.href"
-        ="{% url 'observation_form' %}"
-      >
-        새로운 좌표 입력
-      </button>
+    <div class="button-wrapper">
+      <a href ="{% url 'index' %}">새로운 좌표 입력</a>
     </div>
-
     <script
       type="text/javascript"
       src="//dapi.kakao.com/v2/maps/sdk.js?appkey=29efc1063b0ec0c25f3c2447f35042bb"
@@ -94,5 +86,13 @@
 
       marker.setMap(map);
     </script>
+
+    <br><br><br><br><br><br>
+    <div class="footer-wrapper">
+      <footer>
+        Copyright 2023 척척학사<br><br>
+        All rights reserved.
+      </footer>
+    </div>
   </body>
 </html>

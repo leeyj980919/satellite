@@ -1,22 +1,25 @@
 from django.views.generic.edit import FormView
 from django.http import HttpResponse, JsonResponse
 import requests
-from .forms import ObservationForm
 from secret import *
 from django.shortcuts import render
 from .sorting import get_observation_code
 from .training import YoloV8
+from django.http import request
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
-class ObservationFormView(FormView):
-    template_name = 'observation_form.html'
-    form_class = ObservationForm
+def index(request):
+    return render(request, "index.html")
 
-    def form_valid(self, form):
-        x = float(form.cleaned_data['x'])
-        y = float(form.cleaned_data['y'])
+def process(request):
+    if request.method == "POST":
+        current_user = request.user
+        x = float(request.POST.get("x"))
+        y = float(request.POST.get("y"))
         # obs_code = form.cleaned_data['obsCode']
-        date = form.cleaned_data['date']
+        date = request.POST.get("date")
         # print(obs_code)
         print(date)
         obs_code = get_observation_code(x, y)
@@ -45,7 +48,7 @@ class ObservationFormView(FormView):
 
             print(current_direct)
             print(current_speed)
-            return render(self.request, 'result.html', {'current_direct': current_direct, 'current_speed': current_speed, 'current_time': current_time,
+            return render(request, 'result.html', {'current_direct': current_direct, 'current_speed': current_speed, 'current_time': current_time,
                                                         'obs_post_id': obs_post_id, 'obs_post_name': obs_post_name, 'obs_lat': obs_lat, 'obs_lon': obs_lon, 'img': image})
 
         except requests.exceptions.RequestException as e:
